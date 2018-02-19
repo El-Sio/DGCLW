@@ -55,15 +55,18 @@ select{
 .form-style-1 input[type=email]:focus,
 .form-style-1 textarea:focus, 
 .form-style-1 select:focus{
-    -moz-box-shadow: 0 0 8px #88D5E9;
-    -webkit-box-shadow: 0 0 8px #88D5E9;
-    box-shadow: 0 0 8px #88D5E9;
-    border: 1px solid #88D5E9;
+    -moz-box-shadow: 0 0 8px black;
+    -webkit-box-shadow: 0 0 8px black;
+    box-shadow: 0 0 8px black;
+    border: 1px solid black;
 }
 .form-style-1 .field-divided{
     width: 49%;
 }
 
+        .readonly {
+            background-color: lightgrey;
+        }
 .form-style-1 .field-long{
     width: 100%;
 }
@@ -74,17 +77,18 @@ select{
     height: 100px;
 }
 .form-style-1 input[type=submit], .form-style-1 input[type=button]{
-    background: #4B99AD;
+    background: yellow;
     padding: 8px 15px 8px 15px;
     border: none;
-    color: #fff;
+    color: black;
 }
 .form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover{
-    background: #4691A4;
+    background: gold;
     box-shadow:none;
     -moz-box-shadow:none;
     -webkit-box-shadow:none;
 }
+
 .form-style-1 .required{
     color:red;
 }
@@ -94,12 +98,8 @@ select{
 
 <body>
     
-<form name="selector">
-<ul class="form-style-1">
-    <li><label>Asset : </label><select name="select_xml" id="select_xml">
-    <option value="">---Select XML---</option>
-
-<?php
+    <datalist id="xmls">
+    <?php
 
 if ($handle = opendir('./xmlin/')) {
 
@@ -107,25 +107,42 @@ if ($handle = opendir('./xmlin/')) {
 
     while (false !== ($entry = readdir($handle))) {
         if(in_array(pathinfo($entry, PATHINFO_BASENAME), $ignoredFiles)) continue;
-        echo "<option value=\"./xmlin/" . pathinfo($entry, PATHINFO_BASENAME) . "\">" . pathinfo($entry, PATHINFO_FILENAME) . "</option>";
+        echo "<option value=\"./xmlin/" . pathinfo($entry, PATHINFO_BASENAME) . "\"/>";
     }
 
     closedir($handle);
 }
 ?>
+    </datalist>
 
-    </select></li>
+
+<div>
+    <img src="LogoDG.jpg" alt="Deutsche Grammophon" height="100" style="margin-left:50%">
+    </div>
+<form name="selector">
+    
+<ul class="form-style-1">
+    <fieldset>
+    <li><label>Search by Asset Number : </label><input type="text" list="xmls" name="select_xml" id="select_xml" /></li>
     <li><input type="button" name="Submit" value="Load XML Data" onClick="dataload(select_xml.value)">
     </li>
+        </fieldset>
     </ul>
+        
     </form>
     
     <form name="cablelabs" action="DGCLWxml.php" method="post" onsubmit="return validateForm()">
-    <ul id="dataform" class="form-style-1">
-        <li><label>Asset ID: </label><input type="text" id="assetID" name="asset_ID"/></li>
+    <ul class="form-style-1">
+                <fieldset>
+            <legend>Album Info</legend>
+        <li><label>Asset ID: </label><input type="text" class="readonly" id="assetID" name="asset_ID" readonly="readonly" /></li>
         <li><label>Title : </label><input type="text" id="assetTitle" name="asset_Title"/></li>
         <li><label>Genre : </label><input type="text" id="assetGenre" name="asset_Genre"/></li>
+        <li><label>Cover Art : </label><input type="text" class="readonly" id="coverart" name="cover_Art" readonly="readonly" /></li>
+        </fieldset>
+        <fieldset id="dataform"><legend>Track Info</legend>
         <li id="last-item"><input type="submit" value="Save Translation"></li>
+            </fieldset>
         </ul>
     </form>
     </body>
@@ -167,9 +184,6 @@ if ($handle = opendir('./xmlin/')) {
       xmlhttp.setRequestHeader('Content-Type', 'text/xml');
       xmlhttp.send("");
       xmlDoc = xmlhttp.responseXML;
-      $("#assetID").val(xmlDoc.getElementsByTagName("ICPN")[0].childNodes[0].nodeValue);
-      $("#assetTitle").val(xmlDoc.getElementsByTagName("Release")[0].getElementsByTagName("ReferenceTitle")[0].getElementsByTagName("TitleText")[0].childNodes[0].nodeValue);
-      $("#assetGenre").val(xmlDoc.getElementsByTagName("GenreText")[0].childNodes[0].nodeValue);
       
       var resourcelist = xmlDoc.getElementsByTagName("ResourceList")[0];
       var tracklist = resourcelist.getElementsByTagName("SoundRecording");
@@ -178,13 +192,41 @@ if ($handle = opendir('./xmlin/')) {
           var video = true;
       }
       
+      $("#assetID").val(xmlDoc.getElementsByTagName("ICPN")[0].childNodes[0].nodeValue);
+      $("#assetTitle").val(xmlDoc.getElementsByTagName("Release")[0].getElementsByTagName("ReferenceTitle")[0].getElementsByTagName("TitleText")[0].childNodes[0].nodeValue);
+      $("#assetGenre").val(xmlDoc.getElementsByTagName("GenreText")[0].childNodes[0].nodeValue);
+      if(xmlDoc)
+      if(!video) {
+          $("#coverart").val(xmlDoc.getElementsByTagName("TechnicalImageDetails")[0].getElementsByTagName("FileName")[0].childNodes[0].nodeValue);
+      } else {
+          $("#coverart").val("N/A");
+      }
+      
+      
       for(var i=0; i< tracklist.length; i++){
-        if(!video) {var text = tracklist[i].getElementsByTagName("SoundRecordingDetailsByTerritory")[0].getElementsByTagName("TitleText")[0].childNodes[0].nodeValue;}
-        if(video) {var text = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("TitleText")[0].childNodes[0].nodeValue;}
+        if(!video) {
+            var titles = tracklist[i].getElementsByTagName("SoundRecordingDetailsByTerritory")[0].getElementsByTagName("Title");
+            var index = 0;
+            for(var j=0; j<titles.length; j++) {
+                if(titles[j].getAttribute("TitleType") == "DisplayTitle") {index = j;}
+            }
+            var text = tracklist[i].getElementsByTagName("SoundRecordingDetailsByTerritory")[0].getElementsByTagName("TitleText")[index].childNodes[0].nodeValue;
+            var trkfilename = tracklist[i].getElementsByTagName("SoundRecordingDetailsByTerritory")[0].getElementsByTagName("FileName")[0].childNodes[0].nodeValue;
+        }
+        if(video) {
+            var titles = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("Title");
+            var index = 0;
+            for(var j=0; j<titles.length; j++) {
+                if(titles[j].getAttribute("TitleType") == "DisplayTitle") {index = j;}
+            }
+            var text = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("TitleText")[index].childNodes[0].nodeValue;
+            var trkfilename = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("FileName")[0].childNodes[0].nodeValue;
+        }
         var generateHere = document.getElementById("dataform");
-        var frag = create("<li class='tracks'><label>Track "+i+": </label><input type='text' id='track"+i+"' name='track_"+i+"'/></li>");
+        var frag = create("<li class='tracks'><label>Track "+(i+1)+": </label><input type='text' id='track"+(i+1)+"' name='track_"+(i+1)+"'/></li><li class='tracks'><label>File Name "+(i+1)+": </label><input class='readonly' type='text' id='file"+(i+1)+"' name='file_"+(i+1)+"' readonly='readonly' /></li>");
         generateHere.insertBefore(frag, document.getElementById("last-item"));
-        $("#track"+i).val(text);
+        $("#track"+(i+1)).val(text);
+        $("#file"+(i+1)).val(trkfilename);
       }
 }
     </script>

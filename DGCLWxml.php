@@ -54,10 +54,10 @@ select{
 .form-style-1 input[type=email]:focus,
 .form-style-1 textarea:focus, 
 .form-style-1 select:focus{
-    -moz-box-shadow: 0 0 8px #88D5E9;
-    -webkit-box-shadow: 0 0 8px #88D5E9;
-    box-shadow: 0 0 8px #88D5E9;
-    border: 1px solid #88D5E9;
+    -moz-box-shadow: 0 0 8px black;
+    -webkit-box-shadow: 0 0 8px black;
+    box-shadow: 0 0 8px black;
+    border: 1px solid black;
 }
 .form-style-1 .field-divided{
     width: 49%;
@@ -73,13 +73,13 @@ select{
     height: 100px;
 }
 .form-style-1 input[type=submit], .form-style-1 input[type=button]{
-    background: #4B99AD;
+    background: yellow;
     padding: 8px 15px 8px 15px;
     border: none;
-    color: #fff;
+    color: black;
 }
 .form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover{
-    background: #4691A4;
+    background: gold;
     box-shadow:none;
     -moz-box-shadow:none;
     -webkit-box-shadow:none;
@@ -90,11 +90,31 @@ select{
 </style>
 <body>
 <?
+    function startsWith($haystack, $needle)
+{
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+    
     if (isset($_POST))
     {
         $asset_id = $_POST['asset_ID'];
         $title = $_POST['asset_Title'];
         $genre = $_POST['asset_Genre'];
+        $cover = $_POST['cover_Art'];
+        
+        $tracks = array();
+        $files = array();
+        
+        foreach($_POST as $key=>$val) {
+            
+            if(startsWith($key,"track_")) {
+                array_push($tracks,$val);
+            }
+            if(startsWith($key,"file_")) {
+                array_push($files,$val);
+            }
+        }
         
         $filename = "./xmlout/".$asset_id.".xml";
         $cablelabs = fopen($filename, 'w') or die("can't open file");
@@ -116,8 +136,30 @@ select{
     $node_genre = $domtree->createElement("genre");
     $node_genre = $asset->appendChild($node_genre);
     
+    $node_cover = $domtree->createElement("cover");
+    $node_cover = $asset->appendChild($node_cover);
+    
+    $node_tracks = $domtree->createElement("tracks");
+    $node_tracks = $asset->appendChild($node_tracks);
+    
+    foreach($tracks as $key=>$val) {
+        
+        $node_track = $domtree->createElement("track");
+        $node_track = $node_tracks->appendChild($node_track);
+        $node_track->setAttribute("TrackNumber", $key+1);
+        
+        $node_track_title = $domtree->createElement("title");
+        $node_track_title = $node_track->appendChild($node_track_title);
+        $node_track_title->appendChild($domtree->createCDATASection($tracks[$key]));
+        
+        $node_track_filename = $domtree->createElement("file");
+        $node_track_filename = $node_track->appendChild($node_track_filename);
+        $node_track_filename->appendChild($domtree->createTextNode($files[$key]));
+    }
+    
     $node_title->appendChild($domtree->createCDATASection($title));
     $node_genre->appendChild($domtree->createCDATASection($genre));
+    $node_cover->appendChild($domtree->createTextNode($cover));
     
     $domtree->save($filename);
 ?>
