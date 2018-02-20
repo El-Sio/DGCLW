@@ -122,8 +122,8 @@ if ($handle = opendir('./xmlin/')) {
 <form name="selector">
     
 <ul class="form-style-1">
-    <fieldset>
-    <li><label>Search by Asset Number : </label><input type="text" list="xmls" name="select_xml" id="select_xml" /></li>
+    <fieldset><legend>Search by Asset Number : </legend>
+    <li><input type="text" list="xmls" name="select_xml" id="select_xml" /></li>
     <li><input type="button" name="Submit" value="Load XML Data" onClick="dataload(select_xml.value)">
     </li>
         </fieldset>

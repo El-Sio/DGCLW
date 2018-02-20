@@ -163,14 +163,21 @@ select{
     
     $domtree->save($filename);
 ?>
+  
+    <div>
+    <img src="LogoDG.jpg" alt="Deutsche Grammophon" height="100" style="margin-left:50%">
+    </div>
+    
     <ul class="form-style-1">
-    <li><label>Translation Saved</label></li>
+        <fieldset>
+            <legend>Translation saved</legend>
         <form action="DGCLWform.php">
         <li><input type="submit" value="Do another Translation"></li>
         </form>
         <form action="<? echo $filename; ?>" target="_blank">
         <li><input type="submit" value="View Translation"></li>
             </form>
+            </fieldset>
     </ul>
         </body>
 </html>
