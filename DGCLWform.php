@@ -217,6 +217,7 @@ if ($handle = opendir('./xmlin/')) {
             }
             var text = tracklist[i].getElementsByTagName("SoundRecordingDetailsByTerritory")[0].getElementsByTagName("TitleText")[index].childNodes[0].nodeValue;
             var trkfilename = tracklist[i].getElementsByTagName("SoundRecordingDetailsByTerritory")[0].getElementsByTagName("FileName")[0].childNodes[0].nodeValue;
+            var artist = tracklist[i].getElementsByTagName("FullName")[0].childNodes[0].nodeValue;
         }
         if(video) {
             var titles = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("Title");
@@ -230,6 +231,7 @@ if ($handle = opendir('./xmlin/')) {
                 if(codecs[k].childNodes[0].nodeValue == "QuickTime") {index_codec = k;}
             }
             var text = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("TitleText")[index].childNodes[0].nodeValue;
+            var artist = tracklist[i].getElementsByTagName("FullName")[0].childNodes[0].nodeValue;
             var trkfilename = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("FileName")[index_codec].childNodes[0].nodeValue;
             var bitrate = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("VideoBitRate")[index_codec].childNodes[0].nodeValue;
             var framerate = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("FrameRate")[index_codec].childNodes[0].nodeValue;
@@ -239,7 +241,7 @@ if ($handle = opendir('./xmlin/')) {
         } else {var duration = "N/A";}
         }
         var generateHere = document.getElementById("dataform");
-        var frag = create("<li class='tracks'><label>Track "+(i+1)+": </label><input type='text' id='track"+(i+1)+"' name='track_"+(i+1)+"'/></li><li class='tracks'><label>File Name "+(i+1)+": </label><input class='readonly' type='text' id='file"+(i+1)+"' name='file_"+(i+1)+"' readonly='readonly' /></li>");
+        var frag = create("<li class='tracks'><label>Track "+(i+1)+": </label><input type='text' id='track"+(i+1)+"' name='track_"+(i+1)+"'/><li class='tracks'><label>Artist : </label><input type='text' id='artist"+(i+1)+"' name='artist_"+(i+1)+"'/></li><li class='tracks'><label>File Name "+(i+1)+": </label><input class='readonly' type='text' id='file"+(i+1)+"' name='file_"+(i+1)+"' readonly='readonly' /></li>");
         generateHere.insertBefore(frag, document.getElementById("last-item"));
         if(video) {
             var frag_tech = create("<li class='tracks'><label>Video Bitrate (kBps) :</label><input class='readonly' type='text' id='bitrate"+(i+1)+"' name='bitrate_"+(i+1)+"'/></li><li class='tracks'><label>Video Framerate (Hz) :</label><input type='text' class='readonly' id='framerate"+(i+1)+"' name='framerate_"+(i+1)+"'/></li><li class='tracks'><label>Duration :</label><input type='text' class='readonly' id='duration"+(i+1)+"' name='duration_"+(i+1)+"'/></li>");
@@ -250,6 +252,7 @@ if ($handle = opendir('./xmlin/')) {
         }
         $("#track"+(i+1)).val(text);
         $("#file"+(i+1)).val(trkfilename);
+        $("#artist"+(i+1)).val(artist);
       }
 }
     </script>
