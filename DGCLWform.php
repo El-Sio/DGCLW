@@ -139,6 +139,8 @@ if ($handle = opendir('./xmlin/')) {
         <li><label>Title : </label><input type="text" id="assetTitle" name="asset_Title"/></li>
         <li><label>Genre : </label><input type="text" id="assetGenre" name="asset_Genre"/></li>
         <li><label>Cover Art : </label><input type="text" class="readonly" id="coverart" name="cover_Art" readonly="readonly" /></li>
+        <li><label>Asset Type :</label><input type="text" class="readonly" id="assetType" name="asset_Type" readonly="readonly" /></li>
+                    <li><label>Content Description :</label><textarea rows="4" cols="50" id="assetDesc" name="asset_Desc" >Description (en français) de l'oeuvre</textarea></li>
         </fieldset>
         <fieldset id="dataform"><legend>Track Info</legend>
         <li id="last-item"><input type="submit" value="Save Translation"></li>
@@ -198,8 +200,10 @@ if ($handle = opendir('./xmlin/')) {
       if(xmlDoc)
       if(!video) {
           $("#coverart").val(xmlDoc.getElementsByTagName("TechnicalImageDetails")[0].getElementsByTagName("FileName")[0].childNodes[0].nodeValue);
+          $("#assetType").val("Audio");
       } else {
           $("#coverart").val("N/A");
+          $("#assetType").val("Vidéo");
       }
       
       

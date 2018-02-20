@@ -102,6 +102,8 @@ select{
         $title = $_POST['asset_Title'];
         $genre = $_POST['asset_Genre'];
         $cover = $_POST['cover_Art'];
+        $description = $_POST['asset_Desc'];
+        $type = $_POST['asset_Type'];
         
         $tracks = array();
         $files = array();
@@ -138,6 +140,12 @@ select{
     
     $node_cover = $domtree->createElement("cover");
     $node_cover = $asset->appendChild($node_cover);
+        
+    $node_type = $domtree->createElement("type");
+    $node_type = $asset->appendChild($node_type);
+    
+    $node_desc = $domtree->createElement("description");
+    $node_desc = $asset->appendChild($node_desc);
     
     $node_tracks = $domtree->createElement("tracks");
     $node_tracks = $asset->appendChild($node_tracks);
@@ -160,6 +168,8 @@ select{
     $node_title->appendChild($domtree->createCDATASection($title));
     $node_genre->appendChild($domtree->createCDATASection($genre));
     $node_cover->appendChild($domtree->createTextNode($cover));
+    $node_type->appendChild($domtree->createCDATASection($type));
+    $node_desc->appendChild($domtree->createCDATASection($description));
     
     $domtree->save($filename);
 ?>
