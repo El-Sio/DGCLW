@@ -223,12 +223,30 @@ if ($handle = opendir('./xmlin/')) {
             for(var j=0; j<titles.length; j++) {
                 if(titles[j].getAttribute("TitleType") == "DisplayTitle") {index = j;}
             }
+            var codecs = tracklist[i].getElementsByTagName("VideoCodecType");
+            var index_codec = 0;
+            for(var k=0; k<codecs.length; k++) {
+                if(codecs[k].childNodes[0].nodeValue == "QuickTime") {index_codec = k;}
+            }
             var text = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("TitleText")[index].childNodes[0].nodeValue;
-            var trkfilename = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("FileName")[0].childNodes[0].nodeValue;
+            var trkfilename = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("FileName")[index_codec].childNodes[0].nodeValue;
+            var bitrate = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("VideoBitRate")[index_codec].childNodes[0].nodeValue;
+            var framerate = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("FrameRate")[index_codec].childNodes[0].nodeValue;
+            
+            if(!tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("TechnicalVideoDetails")[index_codec].getElementsByTagName("Duration").isEmptyObject) {
+               var duration = tracklist[i].getElementsByTagName("VideoDetailsByTerritory")[0].getElementsByTagName("TechnicalVideoDetails")[index_codec].getElementsByTagName("Duration")[0].childNodes[0].nodeValue;
+        } else {var duration = "N/A";}
         }
         var generateHere = document.getElementById("dataform");
         var frag = create("<li class='tracks'><label>Track "+(i+1)+": </label><input type='text' id='track"+(i+1)+"' name='track_"+(i+1)+"'/></li><li class='tracks'><label>File Name "+(i+1)+": </label><input class='readonly' type='text' id='file"+(i+1)+"' name='file_"+(i+1)+"' readonly='readonly' /></li>");
         generateHere.insertBefore(frag, document.getElementById("last-item"));
+        if(video) {
+            var frag_tech = create("<li class='tracks'><label>Video Bitrate (kBps) :</label><input readonly='readonly' type='text' id='bitrate"+(i+1)+"' name='bitrate_"+(i+1)+"'/></li><li class='tracks'><label>Video Framerate (Hz) :</label><input type='text' readonly='readonly' id='framerate"+(i+1)+"' name='framerate_"+(i+1)+"'/></li><li class='tracks'><label>Duration :</label><input type='text' readonly='readonly' id='duration"+(i+1)+"' name='duration_"+(i+1)+"'/></li>");
+            generateHere.insertBefore(frag_tech, document.getElementById("last-item"));
+            $("#bitrate"+(i+1)).val(bitrate);
+            $("#framerate"+(i+1)).val(framerate);
+            $("#duration"+(i+1)).val(duration);
+        }
         $("#track"+(i+1)).val(text);
         $("#file"+(i+1)).val(trkfilename);
       }

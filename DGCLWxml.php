@@ -107,6 +107,9 @@ select{
         
         $tracks = array();
         $files = array();
+        $bitrate = array();
+        $framerate = array();
+        $duration = array();
         
         foreach($_POST as $key=>$val) {
             
@@ -116,6 +119,16 @@ select{
             if(startsWith($key,"file_")) {
                 array_push($files,$val);
             }
+            if(startsWith($key,"bitrate_")) {
+                array_push($bitrate,$val);
+            }
+            if(startsWith($key,"framerate_")) {
+                array_push($framerate,$val);
+            }
+            if(startsWith($key,"duration_")) {
+                array_push($duration,$val);
+            }
+            
         }
         
         $filename = "./xmlout/".$asset_id.".xml";
@@ -163,6 +176,18 @@ select{
         $node_track_filename = $domtree->createElement("file");
         $node_track_filename = $node_track->appendChild($node_track_filename);
         $node_track_filename->appendChild($domtree->createTextNode($files[$key]));
+        
+        $node_track_bitrate = $domtree->createElement("bitrate");
+        $node_track_bitrate = $node_track->appendChild($node_track_bitrate);
+        $node_track_bitrate->appendChild($domtree->createTextNode($bitrate[$key]));
+        
+        $node_track_framerate = $domtree->createElement("framerate");
+        $node_track_framerate = $node_track->appendChild($node_track_framerate);
+        $node_track_framerate->appendChild($domtree->createTextNode($framerate[$key]));
+        
+        $node_track_duration = $domtree->createElement("duration");
+        $node_track_duration = $node_track->appendChild($node_track_duration);
+        $node_track_duration->appendChild($domtree->createTextNode($duration[$key]));
     }
     
     $node_title->appendChild($domtree->createCDATASection($title));
