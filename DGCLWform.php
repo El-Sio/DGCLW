@@ -142,6 +142,7 @@ if ($handle = opendir('./xmlin/')) {
         <li><label>Asset Type :</label><input type="text" class="readonly" id="assetType" name="asset_Type" readonly="readonly" /></li>
                     <li><label>Content Description :</label><textarea rows="4" cols="50" id="assetDesc" name="asset_Desc" >Description (en français) de l'oeuvre</textarea></li>
         </fieldset>
+        <br>
         <fieldset id="dataform"><legend>Track Info</legend>
         <li id="last-item"><input type="submit" value="Save Translation"></li>
             </fieldset>
@@ -241,7 +242,7 @@ if ($handle = opendir('./xmlin/')) {
         var frag = create("<li class='tracks'><label>Track "+(i+1)+": </label><input type='text' id='track"+(i+1)+"' name='track_"+(i+1)+"'/></li><li class='tracks'><label>File Name "+(i+1)+": </label><input class='readonly' type='text' id='file"+(i+1)+"' name='file_"+(i+1)+"' readonly='readonly' /></li>");
         generateHere.insertBefore(frag, document.getElementById("last-item"));
         if(video) {
-            var frag_tech = create("<li class='tracks'><label>Video Bitrate (kBps) :</label><input readonly='readonly' type='text' id='bitrate"+(i+1)+"' name='bitrate_"+(i+1)+"'/></li><li class='tracks'><label>Video Framerate (Hz) :</label><input type='text' readonly='readonly' id='framerate"+(i+1)+"' name='framerate_"+(i+1)+"'/></li><li class='tracks'><label>Duration :</label><input type='text' readonly='readonly' id='duration"+(i+1)+"' name='duration_"+(i+1)+"'/></li>");
+            var frag_tech = create("<li class='tracks'><label>Video Bitrate (kBps) :</label><input class='readonly' type='text' id='bitrate"+(i+1)+"' name='bitrate_"+(i+1)+"'/></li><li class='tracks'><label>Video Framerate (Hz) :</label><input type='text' class='readonly' id='framerate"+(i+1)+"' name='framerate_"+(i+1)+"'/></li><li class='tracks'><label>Duration :</label><input type='text' class='readonly' id='duration"+(i+1)+"' name='duration_"+(i+1)+"'/></li>");
             generateHere.insertBefore(frag_tech, document.getElementById("last-item"));
             $("#bitrate"+(i+1)).val(bitrate);
             $("#framerate"+(i+1)).val(framerate);
