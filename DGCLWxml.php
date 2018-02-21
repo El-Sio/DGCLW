@@ -54,10 +54,10 @@ select{
 .form-style-1 input[type=email]:focus,
 .form-style-1 textarea:focus, 
 .form-style-1 select:focus{
-    -moz-box-shadow: 0 0 8px black;
-    -webkit-box-shadow: 0 0 8px black;
-    box-shadow: 0 0 8px black;
-    border: 1px solid black;
+    -moz-box-shadow: 0 0 8px #191A00;
+    -webkit-box-shadow: 0 0 8px #191A00;
+    box-shadow: 0 0 8px #191A00;
+    border: 1px solid #191A00;
 }
 .form-style-1 .field-divided{
     width: 49%;
@@ -73,10 +73,10 @@ select{
     height: 100px;
 }
 .form-style-1 input[type=submit], .form-style-1 input[type=button]{
-    background: yellow;
+    background: #FFED00;
     padding: 8px 15px 8px 15px;
     border: none;
-    color: black;
+    color: #191A00;
 }
 .form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover{
     background: gold;
