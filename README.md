@@ -1,4 +1,4 @@
-# DGCLW (Deutsche Grammophon(r) Cable Labs Writer
+# DGCLW (Deutsche Grammophon(r) Cable Labs Writer)
 
 Simple web based utility for metadata translation.
 Filtered elements from the source metadata XML file are loaded into a translation HTML form to allow for field translation.
