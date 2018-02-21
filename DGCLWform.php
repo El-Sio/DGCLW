@@ -22,6 +22,9 @@
     display:block;
     font-weight: bold;
 }
+.form-style-1 fieldset {
+    margin-bottom: 20px;
+        }
 .form-style-1 input[type=text], 
 .form-style-1 input[type=date],
 .form-style-1 input[type=datetime],
@@ -260,11 +263,13 @@ function parseduration(str) {
             var duration = parseduration(tracklist[i].getElementsByTagName("Duration")[0].childNodes[0].nodeValue);
         }
         var generateHere = document.getElementById("dataform");
-        var frag = create("<li class='tracks'><label>Track "+(i+1)+": </label><input type='text' id='track"+(i+1)+"' name='track_"+(i+1)+"'/><li class='tracks'><label>Artist : </label><input type='text' id='artist"+(i+1)+"' name='artist_"+(i+1)+"'/></li><li class='tracks'><label>Duration :</label><input type='text' class='readonly' id='duration"+(i+1)+"' name='duration_"+(i+1)+"'/></li><li class='tracks'><label>File Name "+(i+1)+": </label><input class='readonly' type='text' id='file"+(i+1)+"' name='file_"+(i+1)+"' readonly='readonly' /></li>");
-        generateHere.insertBefore(frag, document.getElementById("last-item"));
+        if(!video) {
+            var frag = create("<fieldset class='tracks'><legend>Track"+(i+1)+"</legend><li class='tracks'><label>Title : </label><input type='text' id='track"+(i+1)+"' name='track_"+(i+1)+"'/><li class='tracks'><label>Artist : </label><input type='text' id='artist"+(i+1)+"' name='artist_"+(i+1)+"'/></li><li class='tracks'><label>Duration :</label><input type='text' class='readonly' id='duration"+(i+1)+"' name='duration_"+(i+1)+"'/></li><li class='tracks'><label>File Name : </label><input class='readonly' type='text' id='file"+(i+1)+"' name='file_"+(i+1)+"' readonly='readonly' /></li></fieldset>");
+            generateHere.insertBefore(frag, document.getElementById("last-item"));
+        }
         if(video) {
-            var frag_tech = create("<li class='tracks'><label>Video Bitrate (kBps) :</label><input class='readonly' type='text' id='bitrate"+(i+1)+"' name='bitrate_"+(i+1)+"'/></li><li class='tracks'><label>Video Framerate (Hz) :</label><input type='text' class='readonly' id='framerate"+(i+1)+"' name='framerate_"+(i+1)+"'/></li>");
-            generateHere.insertBefore(frag_tech, document.getElementById("last-item"));
+            var frag = create("<fieldset class='tracks'><legend>Track"+(i+1)+"</legend><li class='tracks'><label>Title : </label><input type='text' id='track"+(i+1)+"' name='track_"+(i+1)+"'/><li class='tracks'><label>Artist : </label><input type='text' id='artist"+(i+1)+"' name='artist_"+(i+1)+"'/></li><li class='tracks'><label>Duration :</label><input type='text' class='readonly' id='duration"+(i+1)+"' name='duration_"+(i+1)+"'/></li><li class='tracks'><label>File Name : </label><input class='readonly' type='text' id='file"+(i+1)+"' name='file_"+(i+1)+"' readonly='readonly' /></li><li class='tracks'><label>Video Bitrate (kBps) :</label><input class='readonly' type='text' id='bitrate"+(i+1)+"' name='bitrate_"+(i+1)+"'/></li><li class='tracks'><label>Video Framerate (Hz) :</label><input type='text' class='readonly' id='framerate"+(i+1)+"' name='framerate_"+(i+1)+"'/></li></fieldset>");
+            generateHere.insertBefore(frag, document.getElementById("last-item"));
             $("#bitrate"+(i+1)).val(bitrate);
             $("#framerate"+(i+1)).val(framerate);
         }
