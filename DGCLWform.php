@@ -7,10 +7,7 @@
         
 body {
     background-image: url(bgimg.jpg); 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+
 }
 
 #opacity {
@@ -29,6 +26,7 @@ body {
     display: block;
     list-style: none;
     margin: 10px 0 0 0;
+    background-color: white;
 }
 .form-style-1 label{
     margin:0 0 3px 0;
@@ -85,6 +83,7 @@ select{
         .readonly {
             background-color: #FFED00;
             color: #191A00;
+            cursor: default;
         }
 .form-style-1 .field-long{
     width: 100%;
