@@ -3,6 +3,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     </head>
         <style type="text/css">
+
+body {
+    background-image: url(bgimg.jpg); 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#opacity {
+
+	background-color: rgba(255, 255, 255, 0.9);
+}
+            
 .form-style-1 {
     margin:10px auto;
     max-width: 400px;
@@ -89,6 +103,7 @@ select{
 }
 </style>
 <body>
+<div id="opacity">
 <?
     function startsWith($haystack, $needle)
 {
@@ -222,5 +237,6 @@ select{
             </form>
             </fieldset>
     </ul>
+    </div>
         </body>
 </html>

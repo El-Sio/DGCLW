@@ -4,6 +4,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <style type="text/css">
+        
+body {
+    background-image: url(bgimg.jpg); 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#opacity {
+
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
 .form-style-1 {
     margin:10px auto;
     max-width: 400px;
@@ -24,6 +38,7 @@
 }
 .form-style-1 fieldset {
     margin-bottom: 20px;
+    background-color: white;
         }
 .form-style-1 input[type=text], 
 .form-style-1 input[type=date],
@@ -101,6 +116,7 @@ select{
     
 
 <body>
+    <div id="opacity">
     
     <datalist id="xmls">
     <?php
@@ -152,6 +168,7 @@ if ($handle = opendir('./xmlin/')) {
             </fieldset>
         </ul>
     </form>
+        </div>
     </body>
 
 <script>
@@ -212,6 +229,8 @@ function parseduration(str) {
       xmlhttp.setRequestHeader('Content-Type', 'text/xml');
       xmlhttp.send("");
       xmlDoc = xmlhttp.responseXML;
+      
+      $("#select_xml").val("");
       
       var resourcelist = xmlDoc.getElementsByTagName("ResourceList")[0];
       var tracklist = resourcelist.getElementsByTagName("SoundRecording");
